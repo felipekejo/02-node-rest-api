@@ -1,8 +1,10 @@
 import fastify from "fastify";
+import crypto from "node:crypto";
 import { knex } from "./database";
+import { env } from "./env";
 const app = fastify();
 
-app.get("hello", () => {
+app.get("hello", async () => {
   const transaction = await knex("transactions").insert({
     id: crypto.randomUUID(),
     title: "Transacao test",
@@ -13,7 +15,7 @@ app.get("hello", () => {
 
 app
   .listen({
-    port: 3333,
+    port: env.PORT,
   })
   .then(() => {
     console.log("HTTP server is running!!");
